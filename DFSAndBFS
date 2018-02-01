@@ -1,0 +1,49 @@
+ public class Solution
+    {
+        public void dfs(int[,] M, int[] visit, int i)
+        {
+            for (int j = 0; j < M.GetLength(0); j++)
+            {
+                if (M[i, j] == 1 && visit[j] == 0)
+                {
+                    visit[j] = 1;
+                    dfs(M, visit, j);
+                }
+            }
+        }
+
+        public void bfs(int[,] M, int[] visit, int i)
+        {
+            Queue<int> q = new Queue<int>();
+            q.Enqueue(i);
+            while (q.Count > 0)
+            {
+                int temp = q.Dequeue();
+                for (int j = 0; j < M.GetLength(0); j++)
+                {
+                    if (M[temp, j] == 1 && visit[j] == 0)
+                    {
+                        visit[j] = 1;
+                        q.Enqueue(j);
+                    }
+                }
+            }
+        }
+
+        public int FindCircleNum(int[,] M)
+        {
+            int N = M.GetLength(0);
+            int circle = 0; //朋友圈数
+            int[] visit = new int[N];
+            for (int i = 0; i < N; i++)
+            {
+                if (visit[i] == 0) //还没被访问过
+                {
+                    //dfs(M,visit,i); //使用dfs搜索并标记与其相关的学生
+                    bfs(M, visit, i);   //使用bfs搜索并标记与其相关的学生
+                    circle++;
+                }
+            }
+            return circle;
+        } 
+    }
